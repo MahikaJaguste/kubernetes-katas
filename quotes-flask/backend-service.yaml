@@ -4,14 +4,14 @@ metadata:
   creationTimestamp: null
   labels:
     app: backend
-  name: backend
+  name: backendservice
 spec:
   ports:
     - port: 5000
       protocol: TCP
       targetPort: 5000
   selector:
-    app: backend
+    podLabel: backendPod
   type: ClusterIP
 status:
   loadBalancer: {}

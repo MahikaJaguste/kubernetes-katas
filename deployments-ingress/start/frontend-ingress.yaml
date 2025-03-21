@@ -1,24 +1,22 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    # These annotations are required to use ALB Ingress Controller
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-  name: frontend-ingress
+  name: nginx-ingress
 spec:
-  ingressClassName: "alb"
   rules:
-    # you need to change the host to match your own
-    - host: quotes-<yourname>.<prefix>.eficode.academy
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                # change this to match your service name
-                name: <name of the frontend service>
-                port:
-                # this is the port your service is listening on
-                  number: 5000
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /foo
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 5000
+      - pathType: Prefix
+        path: /bar
+        backend:
+          service:
+            name: backend
+            port:
+              number: 5000

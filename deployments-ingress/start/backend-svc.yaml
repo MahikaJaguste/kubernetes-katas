@@ -8,7 +8,7 @@ spec:
   ports:
     - port: 5000
       protocol: TCP
-      targetPort: 5000
+      targetPort: 8080
   selector:
     run: backend
   type: ClusterIP

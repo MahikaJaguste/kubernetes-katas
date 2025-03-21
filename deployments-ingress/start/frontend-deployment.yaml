@@ -1,10 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: # Deployment name
-  labels: # Deployment labels
+  name: frontend # Deployment name
+  labels: # Labels for the deployment
+    run: frontend
 spec:
-  replicas: # the number of pods to run
+  replicas: 3 # the number of pods to run
   selector: # How to select pods belonging to this deployment. Must match the pod template's labels
     matchLabels: # List of labels
+      run: frontend
   template: # This is the pod template, paste in the pod spec from frontend-pod.yaml
+    metadata:
+      labels:
+        run: frontend
+    spec:
+      containers:
+      - command:
+        - /agnhost
+        - serve-hostname
+        - --http=true
+        - --port=8080
+        image: registry.k8s.io/e2e-test-images/agnhost:2.39
+        name: foo-app

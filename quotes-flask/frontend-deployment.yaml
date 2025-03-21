@@ -6,16 +6,16 @@ metadata:
     app: frontend
   name: frontend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: frontend
+      podLabel: frontendPod
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: frontend
+        podLabel: frontendPod
     spec:
       containers:
         - image: ghcr.io/eficode-academy/quotes-flask-frontend:release
@@ -34,4 +34,8 @@ spec:
                 configMapKeyRef:
                   name: backend-config
                   key: backend_port
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
 

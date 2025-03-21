@@ -3,10 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
 spec:
-  # default. Use `kubectl get sc` too what storage classes are configured
-  storageClassName: "standard"
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi

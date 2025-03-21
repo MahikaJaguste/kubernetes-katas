@@ -17,26 +17,28 @@ spec:
       labels:
         app: postgres
     spec:
+      volumes:
+        - name: postgres-pvc-volume # name we can reference below in container
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+        - name: config-volume
+          configMap:
+            name: postgres-config
+        - name: secret-volume
+          secret:
+            secretName: postgres-secret
       containers:
         - image: docker.io/library/postgres:14.3
           name: postgres
           ports:
             - containerPort: 5432
           resources: {}
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: DB_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: DB_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: DB_NAME
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-pvc-volume
+            - mountPath: /etc/config
+              name: config-volume
+            - mountPath: /etc/secret
+              name: secret-volume
+      
 status: {}

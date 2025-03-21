@@ -1,10 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: # Deployment name
-  labels: # Deployment labels
+  name: backend
+  labels: 
+    run: backend
 spec:
-  replicas: # the number of pods to run
+  replicas: 3
   selector: # How to select pods belonging to this deployment. Must match the pod template's labels
     matchLabels: # List of labels
-  template: # This is the pod template, paste in the pod spec from backend-pod.yaml
+      run: backend
+  template: 
+    metadata:
+      labels:
+        run: backend
+    spec:
+      containers:
+      - command:
+        - /agnhost
+        - serve-hostname
+        - --http=true
+        - --port=8080
+        image: registry.k8s.io/e2e-test-images/agnhost:2.39
+        name: foo-app
